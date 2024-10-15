@@ -13,8 +13,8 @@
 
   <ItemGroup>
     <Folder Include="Contracts\" />
-    <Folder Include="Core\" />
     <Folder Include="Implementations\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>

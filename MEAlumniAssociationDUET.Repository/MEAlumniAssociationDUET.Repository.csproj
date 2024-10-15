@@ -12,8 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="DataAccess\" />
     <Folder Include="Contracts\" />
     <Folder Include="Implementations\" />
   </ItemGroup>
