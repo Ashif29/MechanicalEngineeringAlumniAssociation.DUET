@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MEAlumniAssociationDUET.Common\MEAlumniAssociationDUET.Common.csproj" />
+    <ProjectReference Include="..\MEAlumniAssociationDUET.Repository\MEAlumniAssociationDUET.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Core\" />
+    <Folder Include="Implementations\" />
+  </ItemGroup>
+
+</Project>
