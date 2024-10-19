@@ -1,3 +1,13 @@
-﻿@{
+﻿@using MEAlumniAssociationDUET.Common.Values
+
+@if (User.IsInRole(ConstantsValue.UserRoleName.SuperAdmin) ||
+    User.IsInRole(ConstantsValue.UserRoleName.Admin) ||
+    User.IsInRole(ConstantsValue.UserRoleName.Moderator)
+    )
+{
+    Layout = "_LayoutAdmin";
+}
+else
+{
     Layout = "_Layout";
 }
