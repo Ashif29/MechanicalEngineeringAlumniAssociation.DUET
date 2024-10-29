@@ -1,66 +1,92 @@
+using Autofac.Extensions.DependencyInjection;
 using MEAlumniAssociationDUET.Core;
+using MEAlumniAssociationDUET.Repository.Contracts;
 using MEAlumniAssociationDUET.Repository.DataAccess;
+using MEAlumniAssociationDUET.Repository.Implementations;
+using MEAlumniAssociationDUET.Service.Contracts;
+using MEAlumniAssociationDUET.Service.Implementations;
+using MEAlumniAssociationDUET.Web;
+using MEAlumniAssociationDUET.Web.Core;
+using MEAlumniAssociationDUET.Web.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container
-
-// Add DbContext using SQL Server (or any other provider you're using)
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
-
-// Add Identity services with custom ApplicationUser and ApplicationRole
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();  // Provides tokens for password reset, email confirmation, etc.
-
-// Configure cookie-based authentication
-builder.Services.ConfigureApplicationCookie(options =>
+namespace MEAlumniAssociationDUET.Web
 {
-    options.Cookie.HttpOnly = true;  // Make the cookie accessible only via HTTP
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);  // Cookie expiration time
-    options.LoginPath = "/Account/Login";  // Redirect to login page if not authenticated
-    options.AccessDeniedPath = "/Account/AccessDenied";  // Redirect if access is denied
-    options.SlidingExpiration = true;  // Refresh cookie expiration with each request
-});
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-// Add services for controllers with views
-builder.Services.AddControllersWithViews();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
 
-builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
-var app = builder.Build();
-
-// Seed roles and SuperAdmin during startup
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-    // Initialize roles and create default SuperAdmin
-    await RoleInitializer.InitializeAsync(roleManager, userManager);
+    }
 }
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
+//    // Add services to the container
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+//    // Add DbContext using SQL Server (or any other provider you're using)
+//    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
 
-app.UseRouting();
+////builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Enable authentication and authorization
-app.UseAuthentication();  // This enables cookie-based authentication
-app.UseAuthorization();   // This enables role-based authorization
+//// Add Identity services with custom ApplicationUser and ApplicationRole
+//builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>()
+//    .AddDefaultTokenProviders();  // Provides tokens for password reset, email confirmation, etc.
 
-// Configure default routing
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//builder.Services.AddAuthentication("AuthCookie")
+//           .AddCookie("AuthCookie",options =>
+//           {
+//               options.LoginPath = "/Account/Login";
+//               options.LogoutPath = "/Account/Logout";                     
+//               options.AccessDeniedPath = "/Account/AccessDenied";  // Redirect if access is denied             
+//           });
 
-app.Run();
+//builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+//builder.Services.Configure<PhotoSettings>(builder.Configuration.GetSection("PhotoSettings"));
+
+//builder.Services.AddTransient<IApplicationUserService, ApplicationUserService>();
+//builder.Services.AddTransient<IApplicationRoleService, ApplicationRoleService>();
+
+//builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+//builder.Services.AddScoped<IAuthUserService,AuthUserService>();
+
+//// Add services for controllers with views
+//builder.Services.AddControllersWithViews();
+
+//builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+//var app = builder.Build();
+
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseExceptionHandler("/Home/Error");
+//    app.UseHsts();
+//}
+
+//app.UseHttpsRedirection();
+//app.UseStaticFiles();
+
+//app.UseRouting();
+
+//// Enable authentication and authorization
+//app.UseAuthentication();  // This enables cookie-based authentication
+//app.UseAuthorization();   // This enables role-based authorization
+
+//// Configure default routing
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.Run();

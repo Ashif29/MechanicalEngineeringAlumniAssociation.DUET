@@ -18,7 +18,7 @@ namespace MEAlumniAssociationDUET.Core
         public DateTime? LastModified { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public IList<ApplicationUserRole> UserRoles { get; set; }
+        public IList<ApplicationUserRole>? UserRoles { get; set; }
 
         public ApplicationRole() : base()
         {

@@ -22,51 +22,6 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationPermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("HttpMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationPermissions");
-                });
-
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -116,45 +71,6 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationRolePermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ApplicationPermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ApplicationRoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationPermissionId");
-
-                    b.HasIndex("ApplicationRoleId");
-
-                    b.ToTable("ApplicationRolePermissions");
-                });
-
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
@@ -182,9 +98,11 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -203,6 +121,7 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastPassword")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -219,7 +138,7 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("PasswordChangedCount")
+                    b.Property<int>("PasswordChangedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
@@ -400,25 +319,6 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationRolePermission", b =>
-                {
-                    b.HasOne("MEAlumniAssociationDUET.Core.ApplicationPermission", "ApplicationPermission")
-                        .WithMany()
-                        .HasForeignKey("ApplicationPermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MEAlumniAssociationDUET.Core.ApplicationRole", "ApplicationRole")
-                        .WithMany()
-                        .HasForeignKey("ApplicationRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationPermission");
-
-                    b.Navigation("ApplicationRole");
                 });
 
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationUserRole", b =>
