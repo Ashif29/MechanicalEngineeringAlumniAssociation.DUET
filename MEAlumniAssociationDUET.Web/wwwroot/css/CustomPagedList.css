@@ -1,0 +1,17 @@
+﻿
+
+.pagination {
+	margin: 0 0;
+}
+
+	.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+		z-index: 2;
+		color: #ffffff;
+		cursor: default;
+		background-color: #009688;
+		border-color: #009688;
+	}
+
+	.pagination > li > a, .pagination > li > span {
+		color: #009688;
+	}

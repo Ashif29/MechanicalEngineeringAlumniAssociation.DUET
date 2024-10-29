@@ -1,0 +1,204 @@
+﻿@using MEAlumniAssociationDUET.Core
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using MEAlumniAssociationDUET.Core.NotMapped
+@using MEAlumniAssociationDUET.Core.Entities
+@using MEAlumniAssociationDUET.Web.Models.IdentityModels;
+@using MEAlumniAssociationDUET.Common.Values;
+@model UserQuery
+
+@{
+    ViewData["Title"] = "User";
+    var sl = Model.Page == 1 ? 1 : ((Model.Page - 1) * (Model.PageSize) + 1);
+    var pagedListData = (IPagedList<ApplicationUser>)ViewData["PagedListData"];
+    var currentUser = User.Identity;
+}
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-body">
+            <div class="row" id="default">
+                <div class="col-12">
+                    <div class="card border-custom">
+                        <div class="card-header bg-custom">
+                            <h4 class="card-title"><i class="fa fa-clipboard"></i> User List</h4>
+                            <div class="heading-elements">
+                                <a href="@Url.Action("Add","User")" class="btn btn-sm btn-success white"><i class="fa fa-plus white"></i> New User</a>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form asp-action="Index" method="get">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-3">
+                                                            <input type="text" asp-for="FullName" class="form-control form-control-medium" placeholder="Full Name" data-title="Full Name" data-toggle="tooltip" data-trigger="hover" data-placement="top">
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <input type="text" asp-for="Email" class="form-control form-control-medium" placeholder="Email" data-title="Email" data-toggle="tooltip" data-trigger="hover" data-placement="top">
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <input type="text" asp-for="UserName" class="form-control form-control-medium" placeholder="User Name" data-title="User Name" data-toggle="tooltip" data-trigger="hover" data-placement="top">
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <select asp-for="UserRoleId" asp-items="@(new SelectList(Model.UserRoles,"Value","Text"))" class="form-control form-control-medium select2">
+                                                                <option value="">--User Role--</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 text-right">
+                                                    <button type="submit" class="btn btn-custom rounded-round"><i class="fa fa-search"></i> Search</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-condensed table-striped">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th>#SL</th>
+                                                        <th>User Name</th>
+                                                        <th>Full Name</th>
+                                                        <th>Email</th>
+                                                        <th>User Role</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in pagedListData)
+                                                    {
+                                                        var userImage = (!string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "~/images/no-image.jpg");
+                                                        var textDisabled = item.IsActive ? "" : "text-muted";
+
+                                                        <tr class="@textDisabled" role="row">
+                                                            <td>@(sl++)</td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.UserName)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.FullName)
+                                                            </td>
+
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Email)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.UserRoles.FirstOrDefault().Role.Name)
+                                                            </td>
+
+
+
+                                                            <td style="width:11%">
+                                                                <div class="d-flex @textDisabled">
+                                                                    @if (currentUser.HasPermission(Permissions.SuperAdmin, Permissions.Users.ActiveInactive))
+                                                                    {
+                                                                        <div class="form-check form-check-switchery" style="padding-left:2rem;">
+                                                                            <label class="form-check-label">
+                                                                                <input type="checkbox" class="form-check-input-switchery" @(item.IsActive ? "checked" : "") onclick="active_inactive_Data('@item.Id')">
+                                                                            </label>
+                                                                        </div>
+                                                                    }
+                                                                    &nbsp;&nbsp;<i class="icon-more2" style="margin-top:4px;"></i>
+
+                                                                    <a asp-action="Details" asp-route-id="@item.Id" class="@(item.IsActive ? "text-primary" : "action-disabled")" title="Details"><i class="fa fa-eye"></i></a>
+
+
+                                                                    &nbsp;&nbsp;
+                                                                    @if (currentUser.HasPermission(Permissions.SuperAdmin, Permissions.Users.AddEdit))
+                                                                    {
+                                                                        <a asp-action="Edit" asp-route-id="@item.Id" class="@(item.IsActive ? "text-primary" : "action-disabled")" title="Edit"><i class="fa fa-edit"></i></a>
+                                                                    }
+                                                                    &nbsp;&nbsp;
+                                                                    @if (currentUser.HasPermission(Permissions.SuperAdmin, Permissions.Users.Delete))
+                                                                    {
+
+                                                                        <a href="#" onclick="delete_Data('@item.Id')" class="@(item.IsActive ? "text-danger" : "action-disabled")" title="Delete"><i class="fa fa-trash"></i></a>
+                                                                    }
+                                                                    &nbsp;&nbsp;
+                                                                    @if (currentUser.HasPermission(Permissions.SuperAdmin, Permissions.Users.ResetPassword))
+                                                                    {
+                                                                        <a href="#" onclick="reset_Password('@item.Id','@item.FullName')" class="@(item.IsActive ? "text-danger" : "action-disabled")" title=""><i class="fa fa-recycle"></i></a>
+                                                                    }
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-sm-end">
+                                                @Html.PagedListPager(pagedListData, Page => Url.Action("Index", new
+                                                    {
+                                                        Page,
+                                                        Model.PageSize
+                                                    }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+@section Styles {
+    <partial name="~/Bundle/_PagedListStylesPartial.cshtml" />
+}
+
+@section Scripts {
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+
+    <partial name="~/Bundle/_SweetAlertScriptsPartial.cshtml" />
+    <script src="~/js/ajax-call.js"></script>
+
+    <script type="text/javascript">
+        $(".select2").select2();
+
+        function delete_Data(id) {
+            var url = '@Url.Action("Delete", "User")';
+            var paramData = { id: id };
+            delete_confirm(url, paramData);
+        }
+        function active_inactive_Data(id) {
+            var url = '@Url.Action("ActiveInactive", "User")';
+            var paramData = { id: id };
+            ajaxCall(url, paramData, "renderActiveInactiveItemWithoutAlert");
+        }
+        function details_Data(id) {
+            var url = '@Url.Action("Details", "User")';
+            var paramData = { id: id };
+            ajaxCallModal(url, paramData, "renderUserDetailsLoad");
+        }
+        function renderUserDetailsLoad(data) {
+            $("#detailsModalContent").html(data);
+            $("#detailsModal").modal("show");
+        }
+        function reset_Password(id, name) {
+            swalInit.fire({
+                title: 'Are you sure want to reset ' + name + '\'s pasword ?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirm'
+
+            }).then(function (result) {
+                if (result.value) {
+
+                    var url = '@Url.Action("ResetPassword", "User")';
+                    var paramData = { id: id };
+                    ajaxCall(url, paramData, "renderResetPassword");
+                }
+            });
+        }
+
+    </script>
+}

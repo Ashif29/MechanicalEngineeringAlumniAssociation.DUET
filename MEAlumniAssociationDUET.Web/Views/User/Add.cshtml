@@ -1,0 +1,108 @@
+﻿@using MEAlumniAssociationDUET.Common
+@using MEAlumniAssociationDUET.Web.Models
+@using MEAlumniAssociationDUET.Web.Models.IdentityModels
+@model ApplicationUserModel
+
+@{
+    ViewData["Title"] = "User";
+    var currentUser = User.Identity;
+}
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-body">
+            <div class="row" id="default">
+                <div class="col-12">
+                    @using (Html.BeginForm("Add", "User", FormMethod.Post, new { @class = "form-horizontal", @id = "usrForm", @enctype = "multipart/form-data" }))
+                    {
+                        <div class="card border-custom">
+                            <div class="card-header bg-custom">
+                                <h4 class="card-title"><i class="fa fa-clipboard"></i> New User</h4>
+                            </div>
+                            <div class="card-body">
+                                @Html.AntiForgeryToken()
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" name="InitialUserName" id="InitialUserName" />
+                                <input type="hidden" asp-for="CreatedBy" value="@currentUser.Id()" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="FullName" class="required"></label>
+                                            <input type="text" asp-for="FullName" list="styles" autocomplete="off" class="form-control form-control-medium" required>
+                                            <span class="text-danger" asp-validation-for="FullName"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="UserName" class="required"></label>
+                                            <input type="text" asp-for="UserName" class="form-control form-control-medium" required>
+                                            <span class="text-danger" asp-validation-for="UserName"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="UserRoleId" class="required"></label>
+                                            <select asp-for="UserRoleId" asp-items="@Model.GetUserRoleSelectList()" class="form-control form-control-medium select2" required>
+                                                <option value="">--Choose--</option>
+                                            </select>
+                                            <span class="text-danger" asp-validation-for="UserRoleId"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="InputFile">User Image</label>
+                                            <input type="file" asp-for="InputFile" class="form-control form-control-medium">
+                                            <span class="text-danger" asp-validation-for="InputFile"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Email" class="required"></label>
+                                            <input type="email" asp-for="Email" class="form-control form-control-medium" required>
+                                            <span class="text-danger" asp-validation-for="Email"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="PhoneNumber"></label>
+                                            <input type="text" asp-for="PhoneNumber" class="form-control form-control-medium">
+                                            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a href="javascript:history.back();" class="btn btn-light btn-medium text-white"><i class="fa fa-arrow-circle-left"></i> Back</a>
+                                    <span class="btn btn-success btn-medium" onclick="submitUsrForm()"><i class="fa fa-save"></i> Save</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+
+    <script type="text/javascript">
+        $(".select2").select2();
+        function submitUsrForm() {
+
+            let isValid = $("#usrForm").valid();
+            let userName = $("#UserName").val();
+            let initialUserName = '';
+            jQuery.ajax({
+                url: '@Url.Action("IsExistsUserName", "User")?UserName=' +userName + '&InitialUserName=' + initialUserName,
+                success: function (result) {
+                    if (result == false)
+                    {
+                        isValid = false;
+                        alert("User Name Already Exists.");
+                    }
+
+                },
+                async: false
+            });
+            if (isValid)
+            {
+                $("#usrForm").submit();
+            }
+        }
+    </script>
+}
