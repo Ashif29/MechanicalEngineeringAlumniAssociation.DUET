@@ -23,7 +23,13 @@ namespace MEAlumniAssociationDUET.Repository.DataAccess
         // Define DbSets for permissions and alumni
         //public DbSet<ApplicationPermission> ApplicationPermissions { get; set; }
         //public DbSet<ApplicationRolePermission> ApplicationRolePermissions { get; set; }      
-        public DbSet<AlumniUser> AlumniUsers { get; set; }  // Add AlumniUser DbSet
+        public DbSet<AlumniUser> AlumniUsers { get; set; }  
+        public DbSet<PersonalInfo> PersonalInfos { get; set; }
+        public DbSet<DuetInfo>DuetInfos { get; set; }
+        public DbSet<DiplomaInfo>DiplomaInfos { get; set; } 
+        public DbSet<SscInfo> SscInfos { get; set; }
+        public DbSet<ProfessionalInfo>ProfessionalInfos { get; set; }
+        public DbSet<HigherStudyInfo> HigherStudyInfos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
