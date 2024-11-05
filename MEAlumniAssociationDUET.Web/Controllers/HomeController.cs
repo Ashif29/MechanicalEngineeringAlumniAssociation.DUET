@@ -1,9 +1,11 @@
 using MEAlumniAssociationDUET.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace MEAlumniAssociationDUET.Web.Controllers
 {
+    [Authorize(AuthenticationSchemes = "AuthCookie", Roles = "UnAuthenticatedUser")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,7 +14,6 @@ namespace MEAlumniAssociationDUET.Web.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         {
             return View();

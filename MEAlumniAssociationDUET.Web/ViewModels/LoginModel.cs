@@ -2,7 +2,7 @@
 
 namespace MEAlumniAssociationDUET.Web.ViewModels
 {
-    public class LoginVM
+    public class LoginModel
     {
         [Required]
         [EmailAddress]

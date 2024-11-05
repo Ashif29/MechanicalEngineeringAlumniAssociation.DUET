@@ -22,51 +22,6 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationPermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("HttpMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationPermissions");
-                });
-
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -116,45 +71,6 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationRolePermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ApplicationPermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ApplicationRoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationPermissionId");
-
-                    b.HasIndex("ApplicationRoleId");
-
-                    b.ToTable("ApplicationRolePermissions");
-                });
-
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
@@ -182,9 +98,11 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -199,10 +117,11 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                     b.Property<Guid?>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("LastPassChangeDate")
+                    b.Property<DateTime>("LastPassChangeDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastPassword")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -314,6 +233,367 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                     b.ToTable("AlumniUsers");
                 });
 
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.DiplomaInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CGPA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("PassingYear")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("PersonalInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Polytechnique")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Session")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalInfoId");
+
+                    b.ToTable("DiplomaInfos");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.DuetInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Batch")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HostelName")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("PassingYear")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("PersonalInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RoomNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalInfoId");
+
+                    b.ToTable("DuetInfos");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.HigherStudyInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DegreeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DurationInYears")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HierarchyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PersonalInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProgramType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specialization")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TuitionFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UniversityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalInfoId");
+
+                    b.ToTable("HigherStudyInfos");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float?>("Age")
+                        .HasColumnType("real");
+
+                    b.Property<string>("AlomniId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BloodGroup")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Division")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyConPerson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyConPhoneNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyConRelationship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageSrc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PersonalInfos");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.ProfessionalInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Designation")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmploymentType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JobTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PersonalInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalInfoId");
+
+                    b.ToTable("ProfessionalInfos");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.SscInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Board")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Grade")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PersonalInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RegistrationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RollNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SchoolName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("YearOfPassing")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalInfoId");
+
+                    b.ToTable("SscInfos");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -402,25 +682,6 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationRolePermission", b =>
-                {
-                    b.HasOne("MEAlumniAssociationDUET.Core.ApplicationPermission", "ApplicationPermission")
-                        .WithMany()
-                        .HasForeignKey("ApplicationPermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MEAlumniAssociationDUET.Core.ApplicationRole", "ApplicationRole")
-                        .WithMany()
-                        .HasForeignKey("ApplicationRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationPermission");
-
-                    b.Navigation("ApplicationRole");
-                });
-
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationUserRole", b =>
                 {
                     b.HasOne("MEAlumniAssociationDUET.Core.ApplicationRole", "Role")
@@ -449,6 +710,51 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.DiplomaInfo", b =>
+                {
+                    b.HasOne("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", "PersonalInfo")
+                        .WithMany("DiplomaInfos")
+                        .HasForeignKey("PersonalInfoId");
+
+                    b.Navigation("PersonalInfo");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.DuetInfo", b =>
+                {
+                    b.HasOne("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", "PersonalInfo")
+                        .WithMany("DuetInfos")
+                        .HasForeignKey("PersonalInfoId");
+
+                    b.Navigation("PersonalInfo");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.HigherStudyInfo", b =>
+                {
+                    b.HasOne("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", "PersonalInfo")
+                        .WithMany("HigherStudyInfos")
+                        .HasForeignKey("PersonalInfoId");
+
+                    b.Navigation("PersonalInfo");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.ProfessionalInfo", b =>
+                {
+                    b.HasOne("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", "PersonalInfo")
+                        .WithMany("ProfessionalInfos")
+                        .HasForeignKey("PersonalInfoId");
+
+                    b.Navigation("PersonalInfo");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.SscInfo", b =>
+                {
+                    b.HasOne("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", "PersonalInfo")
+                        .WithMany("SscInfos")
+                        .HasForeignKey("PersonalInfoId");
+
+                    b.Navigation("PersonalInfo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -495,6 +801,19 @@ namespace MEAlumniAssociationDUET.Repository.Migrations
             modelBuilder.Entity("MEAlumniAssociationDUET.Core.ApplicationUser", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("MEAlumniAssociationDUET.Core.Entities.PersonalInfo", b =>
+                {
+                    b.Navigation("DiplomaInfos");
+
+                    b.Navigation("DuetInfos");
+
+                    b.Navigation("HigherStudyInfos");
+
+                    b.Navigation("ProfessionalInfos");
+
+                    b.Navigation("SscInfos");
                 });
 #pragma warning restore 612, 618
         }

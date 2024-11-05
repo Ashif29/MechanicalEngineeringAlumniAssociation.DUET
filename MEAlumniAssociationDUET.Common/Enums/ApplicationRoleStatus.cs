@@ -12,5 +12,6 @@ namespace MEAlumniAssociationDUET.Common.Enums
         SuperAdmin = 2,
         Admin = 3,
         Moderator = 4,
+        UnAuthenticatedUser = 5
     }
 }
